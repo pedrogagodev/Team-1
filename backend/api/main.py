@@ -2,12 +2,13 @@ from fastapi import FastAPI, Depends, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Annotated
 from sqlmodel import Session
+import os
+import uvicorn
 
 from api.routers import auth, Users, Search
 from api.db import create_all_table_and_db, get_session
 from api.utils.token import decode_token, protected_endpoint
 from api.utils.create_admin import create_admin
-import uvicorn
 
 description = """
 # Feed AI
