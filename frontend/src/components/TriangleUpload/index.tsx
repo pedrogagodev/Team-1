@@ -27,7 +27,7 @@ const TriangleUpload = () => {
 	const {
 		mutate,
 		data,
-		isLoading: y,
+		isPending: y,
 		error: processCsvError,
 		reset,
 		isSuccess,
@@ -56,7 +56,7 @@ const TriangleUpload = () => {
 						? "animate-[spin_3s_linear_infinite] border-gradient-outer"
 						: "border-[15px] border-gray-300 opacity-50",
 					isSuccess && "border-green-500",
-					(processCsvError as string) && "border-red-500",
+					processCsvError && "border-red-500",
 				)}
 			/>
 
@@ -67,7 +67,7 @@ const TriangleUpload = () => {
 						? "animate-[spin_3s_linear_infinite] border-gradient-inner"
 						: "border-[30px] border-gray-400 opacity-60",
 					isSuccess && "border-green-500",
-					(processCsvError as string) && "border-red-500",
+					processCsvError && "border-red-500",
 				)}
 			/>
 			<div
@@ -76,15 +76,15 @@ const TriangleUpload = () => {
 				)}
 			>
 				{/* biome-ignore lint: */}
-				<div
-					className={cn(
-						"absolute w-0 h-0 left-1/2 -translate-x-1/2",
-						"border-l-[225px] border-r-[225px] border-b-[390px]",
-						"border-l-transparent border-r-transparent",
-						isSuccess ? "border-b-green-500" : "border-b-black",
-						(processCsvError as string) && "border-b-red-500",
-					)}
-				></div>
+					<div
+						className={cn(
+							"absolute w-0 h-0 left-1/2 -translate-x-1/2",
+							"border-l-[225px] border-r-[225px] border-b-[390px]",
+							"border-l-transparent border-r-transparent",
+							isSuccess ? "border-b-green-500" : "border-b-black",
+							processCsvError && "border-b-red-500",
+						)}
+					></div>
 
 				{/* biome-ignore lint: */}
 				<div
@@ -189,13 +189,15 @@ const TriangleUpload = () => {
 					</div>
 				</div>
 			</div>
-			{(processCsvError as string) && (
+			{processCsvError && (
 				<div className="absolute -bottom-4 bg-red-50 text-red-700 p-3 rounded-lg max-w-md text-center">
 					{processCsvError instanceof AxiosError
 						? processCsvError.message === "Network Error"
 							? "Processing Error"
-							: processCsvError.response?.data?.message
-						: "Processing Error"}
+							: processCsvError.response?.data?.message || processCsvError.message
+						: processCsvError instanceof Error
+							? processCsvError.message
+							: "Processing Error"}
 				</div>
 			)}
 			{error && (
