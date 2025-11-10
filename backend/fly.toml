@@ -1,23 +1,25 @@
-# Configuração do Fly.io para o backend FeedAI
-# Para customizar o nome do app, edite a linha abaixo antes de fazer o deploy
-app = "feedai-backend"
-primary_region = "gru"
+# fly.toml app configuration file generated for feedai-backend on 2025-11-09T20:57:03-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'feedai-backend'
+primary_region = 'gru'
 
 [build]
 
 [env]
-  PORT = "8080"
+  PORT = '8080'
 
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
-  processes = ["app"]
+  processes = ['app']
 
 [[vm]]
-  cpu_kind = "shared"
+  cpu_kind = 'shared'
   cpus = 1
   memory_mb = 512
-

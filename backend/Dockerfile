@@ -4,9 +4,10 @@ FROM python:3.11-slim
 # Define o diretório de trabalho
 WORKDIR /app
 
-# Instala dependências do sistema (necessárias para psycopg2 e outras libs)
+# Instala dependências do sistema (necessárias para compilar algumas bibliotecas Python)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
+    libc6-dev \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
